@@ -69,6 +69,14 @@
         android:layout_below="@id/loginBtn"
         android:textColor="@color/black"/>
 
+    <!--GoogleSignInBtn: Sign in with google account-->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleLoginBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/recoverPassTv">
+    </com.google.android.gms.common.SignInButton>
 
 
     <!--TextView: Click go to RegisterActivity-->
