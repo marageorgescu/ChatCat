@@ -75,9 +75,6 @@ public class ProfileFragment extends Fragment {
     TextView nameTv, emailTv, phoneTv;
     FloatingActionButton fab;
 
-    //TODO replace this with something similar to ProgressDialog
-    AlertDialog.Builder pd;
-
     // permissions constants
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
@@ -157,9 +154,6 @@ public class ProfileFragment extends Fragment {
         emailTv = view.findViewById(R.id.emailTv);
         phoneTv = view.findViewById(R.id.phoneTv);
         fab = view.findViewById(R.id.fab);
-
-        // init progress dialog
-        pd = new AlertDialog.Builder(getActivity());
 
         Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
@@ -259,26 +253,20 @@ public class ProfileFragment extends Fragment {
                 //handle dialog item clicks
                 if (which == 0) {
                     //edit profile clicked
-                    pd.setMessage("Updating Profile Picture");
                     profileOrCoverPhoto = "image";
                     showImagePicDialog();
                 }
                 else if (which == 1) {
                     //edit cover  clicked
-                    pd.setMessage("Updating Cover Photo");
                     profileOrCoverPhoto = "cover";
                     showImagePicDialog();
                 }
                 else if (which == 2) {
                     //edit name clicked
-                    pd.setMessage("Updating Name");
-                    //update value for <name> key in database
                     showNamePhoneUpdateDialog("name");
                 }
                 else if (which == 3) {
                     //edit phone clicked
-                    pd.setMessage("Updating Phone");
-                    //update value for <phone> key in database
                     showNamePhoneUpdateDialog("phone");
                 }
             }
@@ -312,7 +300,7 @@ public class ProfileFragment extends Fragment {
                 //input text from edit text
                 String value = editText.getText().toString().trim();
                 if (!TextUtils.isEmpty(value)) {
-                    pd.show();
+                    //pd.show();
                     HashMap<String, Object> result = new HashMap<>();
                     result.put(key, value);
 
@@ -320,14 +308,6 @@ public class ProfileFragment extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-
-                                    //updated, dismiss progress
-                                    pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            dialog.dismiss();
-                                        }
-                                    });
                                     Toast.makeText(getActivity(), "" + "Updated...", Toast.LENGTH_SHORT).show();
                                 }
                             })
@@ -335,13 +315,6 @@ public class ProfileFragment extends Fragment {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    //failed, dismiss progress, get and show error message
-                                    pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            dialog.dismiss();
-                                        }
-                                    });
                                     Toast.makeText(getActivity(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -460,7 +433,7 @@ public class ProfileFragment extends Fragment {
 
     private void uploadProfileCoverPhoto(Uri uri) {
         //show progress
-        pd.show();
+        //pd.show();
 
         // the parameter image_uri contains the uri of image either from camera or gallery
 
@@ -489,13 +462,6 @@ public class ProfileFragment extends Fragment {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             //url is database of user is added successfully
-                                            pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                                @Override
-                                                public void onDismiss(DialogInterface dialog) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-
                                             Toast.makeText(getActivity(), "Image updated...", Toast.LENGTH_SHORT).show();
                                         }
                                     })
@@ -503,27 +469,11 @@ public class ProfileFragment extends Fragment {
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-
-                                            pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                                @Override
-                                                public void onDismiss(DialogInterface dialog) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
-
                                             Toast.makeText(getActivity(), "Error updating image...", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                         else {
-                            //error
-                            pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    dialog.dismiss();
-                                }
-                            });
-
                             Toast.makeText(getActivity(), "Some error occured", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -531,14 +481,6 @@ public class ProfileFragment extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
-                        pd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                dialog.dismiss();
-                            }
-                        });
-
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -565,15 +507,3 @@ public class ProfileFragment extends Fragment {
         startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
