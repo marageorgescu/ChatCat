@@ -1,5 +1,6 @@
 package com.example.chatcat;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -245,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
                                 hashMap.put("name", ""); //will add later (edit profile)
                                 hashMap.put("phone", ""); //will add later (edit profile)
                                 hashMap.put("image", ""); //will add later (edit profile)
+                                hashMap.put("cover", ""); //will add later (edit profile)
                                 //Firebase database instance
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                                 //path to store user data named "Users"
