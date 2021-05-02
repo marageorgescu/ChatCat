@@ -1,4 +1,4 @@
-package com.example.chatcat;
+package com.example.chatcat.models;
 
 public class ModelUser {
 
