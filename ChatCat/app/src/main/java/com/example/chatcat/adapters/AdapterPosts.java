@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatcat.AddPostActivity;
 import com.example.chatcat.R;
 import com.example.chatcat.ThereProfileActivity;
 import com.example.chatcat.models.ModelPost;
@@ -158,6 +159,7 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
         if (uid.equals(myUid)) {
             // add items in menu
             popupMenu.getMenu().add(Menu.NONE, 0, 0, "Delete");
+            popupMenu.getMenu().add(Menu.NONE, 1, 0, "Edit");
         }
 
         // item click listener
@@ -168,6 +170,15 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 if(id == 0) {
                     // delete is clicked;
                     beginDelete(pId, pImage);
+                }
+                else if(id == 1) {
+                    // edit is clicked
+
+                    //start AddPostActivity with key "editPost" and the id of the post clicked
+                    Intent intent = new Intent(context, AddPostActivity.class);
+                    intent.putExtra("key", "editPost");
+                    intent.putExtra("editPostId", pId);
+                    context.startActivity(intent);
                 }
                 return false;
             }
