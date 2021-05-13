@@ -53,7 +53,7 @@ import retrofit2.Callback;
 public class ChatActivity extends AppCompatActivity {
 
     //views from xml
-    Toolbar toolbar;
+    androidx.appcompat.widget.Toolbar toolbar;
     RecyclerView recyclerView;
     ImageView profileIv;
     TextView nameTv, userStatusTv;
@@ -86,7 +86,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         // init views
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
 
@@ -223,10 +223,12 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     ModelChat chat = ds.getValue(ModelChat.class);
-                    if (chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid)) {
-                        HashMap<String, Object> hasSeenHashMap = new HashMap<>();
-                        hasSeenHashMap.put("isSeen", true);
-                        ds.getRef().updateChildren(hasSeenHashMap);
+                    if (chat != null && chat.getReceiver() != null && chat.getSender() != null) {
+                        if (chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid)) {
+                            HashMap<String, Object> hasSeenHashMap = new HashMap<>();
+                            hasSeenHashMap.put("isSeen", true);
+                            ds.getRef().updateChildren(hasSeenHashMap);
+                        }
                     }
                 }
             }
@@ -247,10 +249,13 @@ public class ChatActivity extends AppCompatActivity {
                 chatList.clear();
                 for (DataSnapshot ds: snapshot.getChildren()) {
                     ModelChat chat = ds.getValue(ModelChat.class);
-                    if (chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid) ||
-                            chat.getReceiver().equals(hisUid) && chat.getSender().equals(myUid)) {
-                        chatList.add(chat);
+                    if (chat != null && chat.getReceiver() != null && chat.getSender() != null) {
+                        if ((chat.getReceiver().equals(myUid) && chat.getSender().equals(hisUid)) ||
+                                (chat.getReceiver().equals(hisUid) && chat.getSender().equals(myUid))) {
+                            chatList.add(chat);
+                        }
                     }
+
 
                     //adapter
                     adapterChat = new AdapterChat(ChatActivity.this, chatList, hisImage);
@@ -297,6 +302,44 @@ public class ChatActivity extends AppCompatActivity {
                     senNotification(hisUid, user.getName(), message);
                 }
                 notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        //create ChatList node/child in firebase database
+        final DatabaseReference chatRef1 = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(myUid)
+                .child(hisUid);
+        chatRef1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    chatRef1.child("id").setValue(hisUid);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        final DatabaseReference chatRef2 = FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(hisUid)
+                .child(myUid);
+
+        chatRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    chatRef1.child("id").setValue(myUid);
+                }
             }
 
             @Override
