@@ -162,8 +162,10 @@ public class PostDetailActivity extends AppCompatActivity {
 
                     commentList.add(modelComment);
 
+                    //pass myUid and postId as parameter of constructor of comment Adapter
+
                     //setup adapter
-                    adapterComments = new AdapterComments(getApplicationContext(), commentList);
+                    adapterComments = new AdapterComments(getApplicationContext(), commentList, myUid, postId);
                     //set adapter
                     recyclerView.setAdapter(adapterComments);
 
