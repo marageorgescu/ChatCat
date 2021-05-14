@@ -338,7 +338,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    chatRef1.child("id").setValue(myUid);
+                    chatRef2.child("id").setValue(myUid);
                 }
             }
 
