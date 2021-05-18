@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.firebase.iid.FirebaseInstanceId;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -126,7 +126,7 @@ public class DashboardActivity extends AppCompatActivity {
             editor.apply();
 
             //update token
-            updateToken(FirebaseInstanceId.getInstance().getToken());
+            //updateToken(FirebaseInstanceId.getInstance().getToken());
 
         } else {
             //user is not signed in, go to main activity
