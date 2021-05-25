@@ -259,6 +259,9 @@ public class UsersFragment extends Fragment {
         if (id == R.id.action_logout) {
             firebaseAuth.signOut();
             checkUserStatus();
+        } else if(id==R.id.action_settings) {
+            // go to settings activity
+            startActivity(new Intent(getActivity(), SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
