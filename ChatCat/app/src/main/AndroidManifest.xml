@@ -7,38 +7,42 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".MyApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatCat">
-        <activity android:name=".PrivacyPolicyActivity"></activity>
+        <activity android:name=".PostLikedByActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PostDetailActivity" />
         <activity android:name=".ThereProfileActivity" />
-
-        <!--Intent filters inform the system what intents an application component is willing to accept.
-        To receive text/image type of intents we will add intent filter to activity, that will handle that data-->
-        <activity android:name=".AddPostActivity" >
-
+        <!--
+Intent filters inform the system what intents an application component is willing to accept.
+        To receive text/image type of intents we will add intent filter to activity, that will handle that data
+        -->
+        <activity android:name=".AddPostActivity">
             <intent-filter>
-                <!--For Image-->
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="image/*"/>
-            </intent-filter>
 
+                <!-- For Image -->
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
             <intent-filter>
-                <!--For Text-->
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
-            </intent-filter>
 
+                <!-- For Text -->
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
-
         <activity
             android:name=".ChatActivity"
             android:theme="@style/Theme.ChatCatNew" />

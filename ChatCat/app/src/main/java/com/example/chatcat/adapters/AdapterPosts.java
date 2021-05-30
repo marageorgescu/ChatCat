@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatcat.AddPostActivity;
 import com.example.chatcat.PostDetailActivity;
+import com.example.chatcat.PostLikedByActivity;
 import com.example.chatcat.R;
 import com.example.chatcat.ThereProfileActivity;
 import com.example.chatcat.models.ModelPost;
@@ -215,6 +216,17 @@ public class AdapterPosts extends RecyclerView.Adapter<AdapterPosts.MyHolder> {
                 context.startActivity(intent);
             }
         });
+
+        //click like count to start PostLikedByActivity, and pass the post id
+        holder.pLikesTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostLikedByActivity.class);
+                intent.putExtra("postId", pId);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     private void addToHisNotifications(String hisUid, String pId, String notification)
